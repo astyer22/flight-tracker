@@ -12,7 +12,10 @@ function App() {
     fetch('http://localhost:5000/airlines')
       .then((response) => response.json())
       .then((data) => {
-        setAirlines(data);  // Set the airlines state with the fetched data
+        // Debugging
+        console.log('Airlines:', data);
+        // Set the airlines state with the fetched data
+        setAirlines(data);  
       })
       .catch((error) => {
         console.error('Error fetching airlines:', error);
@@ -25,7 +28,10 @@ function App() {
       fetch(`http://localhost:5000/flights?airline=${selectedAirline}`)
         .then((response) => response.json())
         .then((data) => {
-          setFlights(data);  // Set the flights state with the fetched flight data
+          // Debugging
+          console.log('Flights received:', data); 
+          // Set the flights state with the fetched flight data
+          setFlights(data);  
         })
         .catch((error) => {
           console.error('Error fetching flights:', error);

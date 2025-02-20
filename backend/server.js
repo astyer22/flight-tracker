@@ -54,13 +54,22 @@ async function fetchFlights() {
 
 // Endpoint to get flights from the database
 app.get('/flights', async (req, res) => {
-    try {
-        const { rows } = await pool.query('SELECT * FROM live_flights');
-        res.json(rows);
-    } catch (error) {
-        console.error('Database error:', error);
-        res.status(500).json({ error: 'Error fetching flights' });
-    }
+  try {
+      const { airline } = req.query;
+      let query = 'SELECT * FROM live_flights';
+      let params = [];
+
+      if (airline) {
+          query += ' WHERE airline_icao = $1';
+          params.push(airline);
+      }
+
+      const { rows } = await pool.query(query, params);
+      res.json(rows);
+  } catch (error) {
+      console.error('Database error:', error);
+      res.status(500).json({ error: 'Error fetching flights' });
+  }
 });
 
 // Fetch flight data every 15 seconds
