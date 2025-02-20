@@ -52,7 +52,20 @@ async function fetchFlights() {
 }
 
 
-// Endpoint to get flights from the database
+// Endpoints
+
+//  Get airlines from the database
+app.get('/airlines', async (req, res) => {
+  try {
+      const { rows } = await pool.query('SELECT * FROM airlines');
+      res.json(rows);  // Send the airlines data as JSON
+  } catch (error) {
+      console.error('Error fetching airlines:', error);
+      res.status(500).json({ error: 'Error fetching airlines' });
+  }
+});
+
+//  Get flights from the database
 app.get('/flights', async (req, res) => {
   try {
       const { airline } = req.query;
